@@ -53,6 +53,13 @@ class ProjectController extends Controller
         $form_data['slug'] = $slug;
 
         $newProject = new Project();
+        
+        if($request->hasFile('cover_image')){
+            $path = Storage::disk('public')->put('post_images', $request->cover_image);
+            
+            $form_data['cover_image'] = $path;
+        }
+
         $newProject->fill($form_data);
 
         $newProject->save();
@@ -60,6 +67,7 @@ class ProjectController extends Controller
         if($request->has('technologies')){
             $newProject->technologies()->attach($request->technologies);
         }
+
         
         return redirect()->route('admin.projects.index')->with('message', 'Progetto creato correttamente');
     }
