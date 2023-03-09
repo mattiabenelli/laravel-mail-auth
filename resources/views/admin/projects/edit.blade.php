@@ -15,7 +15,7 @@
             </div>
         @endif
         <div class="col-12 py-3">
-            <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST">
+            <form action="{{ route('admin.projects.update', $project->slug) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group my-3">
@@ -26,6 +26,17 @@
                             <div class="text-danger">{{ $error }}</div>
                         @endforeach
                     @endif
+                </div>
+                <div class="form-group my-3">
+                    <label class="control-label">Copertina</label>
+                    <div>
+                    <img src="{{asset('storage/' .$project->cover_image)}}" class="w-50">
+                    </div>
+                    <input type="file" name="cover_image" id="cover_image" class="form-control
+                    @error('cover_image')is-invalid @enderror">
+                    @error('cover_image')
+                    <div class="text-danger">
+                    @enderror
                 </div>
                 <div class="form-group my-3">
                     <label class="control-label">Tecnologie</label>

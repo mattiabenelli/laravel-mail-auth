@@ -110,6 +110,16 @@ class ProjectController extends Controller
         $slug = Project::generateSlug($request->title, '-');
         $form_data['slug'] = $slug;
 
+        if($request->has('cover_image')){
+            //SECONDO CONTROLLO PER CANCELLARE IL FILE PRECEDENTE SE PRESENTE
+            if($project->cover_image){
+                Storage::delete($project->cover_image);  
+            }
+            $path = Storage::disk('public')->put('project_images', $request->cover_image);
+            
+            $form_data['cover_image'] = $path;
+        }
+
         $project->update($form_data);
 
         if($request->has('technologies')){
